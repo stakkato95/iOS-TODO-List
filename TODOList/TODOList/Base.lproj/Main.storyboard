@@ -8,7 +8,7 @@
         <!--TODO List-->
         <scene sceneID="1aC-d1-Xz7">
             <objects>
-                <tableViewController id="Wjj-ZU-Wwz" sceneMemberID="viewController">
+                <tableViewController id="Wjj-ZU-Wwz" customClass="TODOListTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="BvZ-Xa-Aln">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -294,10 +294,10 @@
             </objects>
             <point key="canvasLocation" x="659" y="490"/>
         </scene>
-        <!--New TODO item-->
+        <!--TODO Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="TODOItemViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -320,12 +320,21 @@
                             <constraint firstItem="Xz3-DF-bEt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="rNN-cN-qoR"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="New TODO item" id="UbM-M6-HBV">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Px8-HP-S5I"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="TnH-eR-3eS"/>
+                    <navigationItem key="navigationItem" title="TODO Item" id="UbM-M6-HBV">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Px8-HP-S5I">
+                            <connections>
+                                <segue destination="HRr-du-gGP" kind="unwind" unwindAction="unwindToList:" id="51F-13-ex2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="TnH-eR-3eS">
+                            <connections>
+                                <segue destination="HRr-du-gGP" kind="unwind" unwindAction="unwindToList:" id="qQy-vj-FqB"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="HRr-du-gGP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2189" y="490"/>
         </scene>
