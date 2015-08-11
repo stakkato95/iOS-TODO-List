@@ -8,6 +8,7 @@
 
 #import "TODOListTableViewController.h"
 #import "TODOItem.h"
+#import "TODOItemViewController.h"
 
 @interface TODOListTableViewController ()
 
@@ -18,13 +19,19 @@
 @implementation TODOListTableViewController
 
 - (IBAction)unwindToList:(UIStoryboardSegue *) segue {
-    
+    TODOItemViewController *source = [segue sourceViewController];
+    TODOItem *newToDoItem = source.toDoItem;
+    if (newToDoItem != nil) {
+        [self.toDoItems addObject:newToDoItem];
+        [self.tableView reloadData];
+    }
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.toDoItems = [[NSMutableArray alloc] init];
+    [self prepareFakeData];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -39,10 +46,10 @@
     firstItem.name = @"I've done the first task";
     [self.toDoItems addObject:firstItem];
     TODOItem *secondItem = [[TODOItem alloc] init];
-    firstItem.name = @"Objective C is quite strange programming language";
+    secondItem.name = @"Objective C is quite strange programming language";
     [self.toDoItems addObject:secondItem];
     TODOItem *thirdItem = [[TODOItem alloc] init];
-    firstItem.name = @"It's time to go to bed";
+    thirdItem.name = @"It's time to go to bed";
     [self.toDoItems addObject:thirdItem];
 }
 
@@ -55,26 +62,36 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.toDoItems count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListPrototypeCell" forIndexPath:indexPath];
+    TODOItem *currentItem = [self.toDoItems objectAtIndex:indexPath.row];
+    cell.textLabel.text = currentItem.name;
     
-    // Configure the cell...
-    
+    if (currentItem.isCompleted) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     return cell;
 }
-*/
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    TODOItem *selectedItem = [self.toDoItems objectAtIndex:indexPath.row];
+    selectedItem.isCompleted = !selectedItem.isCompleted;
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
 
 /*
 // Override to support conditional editing of the table view.
